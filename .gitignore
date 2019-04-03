@@ -3,3 +3,4 @@
 .env/*
 cs231n/datasets/
 .ipynb_checkpoints/
+cs231n/bin/
