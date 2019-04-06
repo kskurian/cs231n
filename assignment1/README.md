@@ -1,43 +1,48 @@
 
 
-Environment setupI. Locally
-	1. Installing Anaconda:If you decide to work locally, we recommend using the free Anaconda Python distribution, 
-	which provides an easy way for you to handle package dependencies
-	2. Anaconda Virtual environmentTo set up a virtual environment>conda create -n cs231n python=3.6 anaconda
-	3. Then, to activate and enter the environment, run>source activate cs231nto exit>source deactivate cs231n 
+# Environment setup
+<br/>
+I. Locally <br/>
+	 Markup : 1. Installing Anaconda:If you decide to work locally, we recommend using the free Anaconda Python distribution, 
+	which provides an easy way for you to handle package dependencies <br/>
+	2. Anaconda Virtual environmentTo set up a virtual environment>conda create -n cs231n python=3.6 anaconda <br/>
+	3. Then, to activate and enter the environment, run>source activate cs231nto exit>source deactivate cs231n <br/>
 
-# To activate this environment, 
+To activate this environment, <br/>
+use:# > activate cs231n## <br/>
 
-use:# > activate cs231n## 
+To deactivate an active environment, <br/>
+use:# > deactivate <br/>
 
-To deactivate an active environment, 
-use:# > deactivate
+To start the Jupyter Notebook, we need to first move to the Anacoda3 folder. <br/>
+> cd C:\Users\<name>\Anaconda3\envs>jupyter notebook <br/>
 
-To start the Jupyter Notebook, we need to first move to the Anacoda3 folder.
-> cd C:\Users\<name>\Anaconda3\envs>jupyter notebook
-
-$ wget http://cs231n.github.io/assignments/2018/spring1718_assignment1.zip
-$ sudo apt-get install unzip 
-$ unzip spring1718_assignment1.zip
+$ wget http://cs231n.github.io/assignments/2018/spring1718_assignment1.zip 
+$ sudo apt-get install unzip <br/>
+$ unzip spring1718_assignment1.zip <br/>
 $ cd assignment1$ ./setup_googlecloud.shII.
-
-GOOGLE CLOUD : 
->gcloud compute ssh --zone=<instance>
+<br/>
+II. GOOGLE CLOUD : <br/>
+>gcloud compute ssh --zone=<instance> 
 >source .env/bin/activate>jupyter notebook --ip=0.0.0.0 --port=7000 --no-browserconnect 
+<br/>
+via web browser in http, :7000 with the passcode <br/>
+This has to be done since in the gcp console you have given the ip configuration for 0.0.0.0:7000. <br/>
+Else it wouldn't work. <br/>
+There is another way as well by using ssh port  ref : https://jeffdelaney.me/blog/running-jupyter-notebook-google-cloud-platform/ <br/>
 
-via web browser in http, :7000 with the passcode
-This has to be done since in the gcp console you have given the ip configuration for 0.0.0.0:7000.
-Else it wouldn't work.
-There is another way as well by using ssh port  ref : https://jeffdelaney.me/blog/running-jupyter-notebook-google-cloud-platform/
-
-ASSIGNMENT 1 :
+ASSIGNMENT 1 : <br/>
 
 The whole problem is based on Image Classification of the data. Here we are trying to use 
-	1. KNN
+	Markup : 1. KNN
 	2. Linear Classification
 	3. Neural Networks
 
-********************************************************************************************************************************About the dataset - CIFAR http://www.cs.toronto.edu/~kriz/cifar.htmlThe archive contains the files data_batch_1, data_batch_2, ..., data_batch_5, as well as test_batch. Each of these files is a Python "pickled" object produced with cPickle.Loaded in this way, each of the batch files contains a dictionary with the following elements:
+********************************************************************************************************************************
+# About the dataset - 
+CIFAR http://www.cs.toronto.edu/~kriz/cifar.html
+
+The archive contains the files data_batch_1, data_batch_2, ..., data_batch_5, as well as test_batch. Each of these files is a Python "pickled" object produced with cPickle.Loaded in this way, each of the batch files contains a dictionary with the following elements:
 	* data -- a 10000x3072 numpy array of uint8s. 
 	Each row of the array stores a 32x32 colour image.
 	The first 1024 entries contain the red channel values, the next 1024 the green, and the final 1024 the blue.
@@ -50,8 +55,35 @@ The dataset contains another file, called batches.meta. It too contains a Python
 	* label_names -- a 10-element list which gives meaningful names to the numeric labels in the labels array described above.
 	For example, label_names[0] == "airplane", label_names[1] == "automobile", etc.
 
-*******************************************************************************************************************************Working with the Project$source activate cs231n$jupyter notebook*******************************************************************************************************************************KNNIt tries to create a division of the point based on the distance this can being any distance such Euclidean etc.It take a set of training data as the true and print('Training data shape: ', X_train.shape)  # (50000, 32, 32, 3)print('Training labels shape: ', y_train.shape) # (50000,)print('Test data shape: ', X_test.shape) # (10000, 32, 32, 3)print('Test labels shape: ', y_test.shape) # (10000,)We shorten the X_train and Y_train to 5000 and x_test and y_test to 500We next find the distance using Euclidean method# you should see significantly faster performance with the fully vectorized implementationTwo loop version took 61.402659 secondsOne loop version took 54.067250 secondsNo loop version took 0.588316 secondsValidation sets for Hyperparameter tuningWe cannot use the test set for the purpose of tweaking hyperparameters, you should think of the test set as a very precious resource that should ideally never be touched until one time at the very end. Only use the test set once at end, it remains a good proxy for measuring the generalization of your classifier. Else you would overfit to the test set.Cross-validationIn cases where the size of your training data might be small use more sophisticated technique for hyperparameter tuning called cross-validation.We split the training set into folds, keeping the last set as validation set. Now we train the model with each of these and then run the predict with the validation set. Here we test the accuracy across different training set.*******************************************************************************************************************************SVM - support vector machineIn this exercise you will:
-SVM 
+*******************************************************************************************************************************
+# KNN
+
+It tries to create a division of the point based on the distance this can being any distance such Euclidean etc.
+It take a set of training data as the true and 
+print('Training data shape: ', X_train.shape) 
+(50000, 32, 32, 3)
+print('Training labels shape: ', y_train.shape)
+(50000,)
+print('Test data shape: ', X_test.shape)
+(10000, 32, 32, 3)
+print('Test labels shape: ', y_test.shape)
+(10000,)
+
+We shorten the X_train and Y_train to 5000 and x_test and y_test to 500.
+We next find the distance using Euclidean method
+Performance improvement happens as we make the process more matrix based once
+Two loop version took 61.402659 seconds
+One loop version took 54.067250 seconds
+No loop version took 0.588316 seconds
+
+Validation sets for Hyperparameter tuning
+We cannot use the test set for the purpose of tweaking hyperparameters, you should think of the test set as a very precious resource that should ideally never be touched until one time at the very end. Only use the test set once at end, it remains a good proxy for measuring the generalization of your classifier. Else you would overfit to the test set.
+
+Cross-validationIn cases where the size of your training data might be small use more sophisticated technique for hyperparameter tuning called cross-validation. We split the training set into folds, keeping the last set as validation set. Now we train the model with each of these and then run the predict with the validation set. Here we test the accuracy across different training set.
+
+*******************************************************************************************************************************
+
+# SVM - support vector machineIn this exercise you will:
 	* implement a fully-vectorized loss function for the SVM
 	* implement the fully-vectorized expression for its analytic gradient
 	* check your implementation using numerical gradient
@@ -59,7 +91,8 @@ SVM
 	* optimize the loss function with SGD
 	* visualize the final learned weights
 
-# Split the data into train, val, and test sets. 
+Split the data into train, val, and test sets. 
+
 In addition we will create a small development set as a subset of the training data;
  we can use this for development so our code runs faster.
  print('Train data shape: ', X_train.shape)
@@ -74,6 +107,7 @@ In addition we will create a small development set as a subset of the training d
  #Test data shape: (1000, 32, 32, 3)
  print('Test labels shape: ', y_test.shape)
  #Test labels shape: (1000,)
+
  X_Training data shape: (49000, 3072)
  X_Validation data shape: (1000, 3072)
  X_Test data shape: (1000, 3072)
@@ -81,9 +115,10 @@ In addition we will create a small development set as a subset of the training d
  
  # Preprocessing: 
  subtract the mean image
- # first: compute the image mean based on the training data
- # second: subtract the mean image from train and test data
- # third: append the bias dimension of ones (i.e. bias trick)
+ first: compute the image mean based on the training data
+ second: subtract the mean image from train and test data
+ third: append the bias dimension of ones (i.e. bias trick)
+ 
  so that our SVM only has to worry about optimizing a single weight matrix W.
  After the third preprocessing :
  X_train.shape (49000, 3073)
@@ -123,7 +158,7 @@ In addition we will create a small development set as a subset of the training d
  Once we find the loss and the gradient descend we need to update the values for the Linear_Classifier.
  While prediction we need to update the weights using the learning rate.
 
-***Huge remark is the that the regularization value was the mistake. Which made the computation make loss at nan.
+*Huge remark is the that the regularization value was the mistake. Which made the computation make loss at nan.
 
 *******************************************************************************************************************************
 	Softmax - 
