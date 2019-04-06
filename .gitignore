@@ -1,6 +1,6 @@
 *.swp
 *.pyc
 .env/*
-cs231n/datasets/
+assignment1/cs231n/datasets/
 .ipynb_checkpoints/
-cs231n/bin/
+assignment1/cs231n/bin/
