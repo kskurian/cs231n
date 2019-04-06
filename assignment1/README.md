@@ -206,7 +206,7 @@ This sum could be a huge value if we directly take the exp of all the value. So 
   scores : (N,C) <br/>
   If y is None, return a matrix scores of shape (N, C) <br/>
    <br/>
-  
+  ![Image of Front](https://github.com/kskurian/cs231n/blob/master/assignment1/Ml.png?raw=true)
   dW1: H,C x C,N x N,D would be the same as that of W1 : D,H  <br/>
   db1: N,C * C, H = N, H ->  <br/>
   dW2: H,N * N,C = H,C -> Since its derivative is Out of Hidden X dscore <br/>
