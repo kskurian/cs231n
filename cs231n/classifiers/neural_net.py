@@ -75,7 +75,8 @@ class TwoLayerNet(object):
     # Store the result in the scores variable, which should be an array of      #
     # shape (N, C).                                                             #
     #############################################################################
-    pass
+    H1 = np.maximum(0, X.dot(W1) + b1)
+    scores = H1.dot(W2) + b2
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
@@ -92,7 +93,15 @@ class TwoLayerNet(object):
     # in the variable loss, which should be a scalar. Use the Softmax           #
     # classifier loss.                                                          #
     #############################################################################
-    pass
+    scores -= scores.max()
+    scores = np.exp(scores)
+    correct = np.zeros(y.shape)
+    correct = scores[range(scores.shape[0]),y]
+    sum = np.sum(scores,axis=1)
+    loss = np.sum(-1 * np.log(correct/sum))
+    loss /= N
+    loss += reg * np.sum(W1 * W1)
+    loss += reg * np.sum(W2 * W2)
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
@@ -104,7 +113,23 @@ class TwoLayerNet(object):
     # and biases. Store the results in the grads dictionary. For example,       #
     # grads['W1'] should store the gradient on W1, and be a matrix of same size #
     #############################################################################
-    pass
+    
+    dscores = np.divide(scores, sum.reshape(N,1))
+    dscores[range(scores.shape[0]),y] = -1 * ((sum - correct)/ sum)
+    dscores /= N
+    dW2 = H1.T.dot(dscores)
+    db2 = np.sum(dscores,axis=0)
+    
+    tmp = W2.dot(dscores.T)
+    tmp[H1.T == 0] = 0
+    dW1 = tmp.dot(X)
+    dW1 = dW1.T
+    db1 = np.sum(tmp,axis = 1)
+    
+    grads['W2'] = dW2 + 2 * reg * W2
+    grads['b2'] = db2
+    grads['W1'] = dW1 + 2 * reg * W1
+    grads['b1'] = db1
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
